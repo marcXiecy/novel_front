@@ -1,0 +1,20 @@
+<!--pages/catalog/catalog.wxml-->
+<view class="main">
+  <view class="info">
+    <image class="background" src="{{catalogs.image}}"></image>
+    <image class="image" src="{{catalogs.image}}"></image>
+    <view class='text'>
+      <view>{{catalogs.title}}</view>
+      <view>作者：{{catalogs.author}}</view>
+    </view>
+    <view class="buttons">
+      <button wx:if="{{inShelf}}" bindtap="removeFromShelf" type="warn">移出书架</button>
+      <button wx:else bindtap="addToShelf" type="warn">加入书架</button>
+    </view>
+  </view>
+  <view class="catalog">
+    <view class="catalog_item" data-href="{{item.href}}" data-title="{{catalogs.title}}" data-author="{{catalogs.author}}" bindtap="read" wx:for="{{catalogs.catalog}}" wx:key="item">
+      {{item.title}}
+    </view>
+  </view>
+</view>

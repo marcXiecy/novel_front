@@ -1,0 +1,103 @@
+/* pages/shelf/shelf.wxss */
+@import "../../resources/fontAwesome.wxss";
+.main{
+  width: 100vw;
+}
+.topbanner {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 66rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  align-items: center;
+  z-index: 99;
+  width: 100%;
+  background: white;
+  border-bottom: 1px solid lightgray;
+}
+.userinfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:flex-start;
+}
+
+.btnsearch{
+  font-size: 46rpx;
+}
+.userinfo-avatar {
+  width: 58rpx;
+  height: 58rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  margin-left: 16rpx;
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+
+.shelf{
+  position: relative;
+  width: 100vw;
+  background: #fff;
+  top: 70rpx;
+}
+
+
+.shelf .shelf_items{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20rpx;
+  box-sizing: border-box;
+  padding: 30rpx 15rpx;
+
+}
+.weui-cells:after{
+  border-bottom: 0px;
+}
+.weui-cells:before{
+  border-top: 0px;
+}
+.shelf .shelf_items mp-slideview{
+  width: 100%;
+
+}
+
+.shelf .shelf_items .shelf_item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.shelf_item .image{
+  width: 135rpx;
+  height: 185rpx;
+  margin-right: 16rpx;
+}
+
+.shelf_item .text{
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+height: 185rpx;
+}
+.shelf_item .author{
+  font-size: 28rpx;
+}
+
+.shelf_item .title{
+font-size: 32rpx;
+font-weight: bold;
+}

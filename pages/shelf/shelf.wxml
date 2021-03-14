@@ -1,0 +1,36 @@
+<!--pages/shelf/shelf.wxml-->
+<view class="main">
+  <view class="topbanner">
+    <view class="userinfo">
+      <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称
+      </button>
+      <block wx:else>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      </block>
+    </view>
+    <view bindtap="toSearch" class="btnsearch fa fa-search fa-large">
+    </view>
+  </view>
+  <view class="shelf">
+    <button wx:if="{{shelfFail}}" type="warn" bindtap="getShelf">重试</button>
+    <view class="shelf_items weui-cells" wx:else>
+      <mp-slideview bindtap="{{item.current_page_url ? 'toArticle' : 'toCatalog'}}" data-title="{{item.book.title}}"
+        data-author="{{item.book.author}}" data-article="{{item.current_page_url}}" data-catalog="{{item.url}}"
+        data-index="{{item.id}}"  wx:for="{{shelf}}" wx:key="item"  buttons="{{slideButtons}}" bindbuttontap="slideButtonTap">
+        <view class="weui-slidecell shelf_item">
+            <image class="image" src="{{item.book.image}}"></image>
+            <view class='text'>
+              <view class="title">{{item.book.title}}</view>
+              <view class="author">作者：{{item.book.author}}</view>
+            </view>
+          </view>
+      </mp-slideview>
+    </view>
+  </view>
+</view>
+
+<!-- <view class="button">
+      <button open-type="getUserInfo" color="#ff9147" round size="large" bind:getuserinfo="getUserInfo">授权登录</button>
+      <button open-type="getPhoneNumber" color="#ff9147" round size="large" bind:getphonenumber="getPhoneNumber" >一键绑定手机</button>
+    </view> -->

@@ -1,0 +1,15 @@
+<!--pages/search/search.wxml-->
+<view class="main">
+  <view class="searchbar">
+    <input class="searchbar-input" placeholder="书籍名称" model:value="{{keyword}}" />
+    <button bindtap="search" class="mini-btn searchbar_btn" type="default" id="btnSearch">搜索</button>
+  </view>
+  <view class="results">
+  <view class="result"  data-href='{{item.href}}' bindtap='toCatalog' wx:for="{{searchResult}}" wx:key="item">
+    <lable>{{item.title}}</lable>
+  </view>
+</view>
+  <view wx:if="{{ searchError }}" class="error">
+    <lable>{{searchErrorMsg}}</lable>
+  </view>
+</view>

@@ -1,0 +1,43 @@
+{
+  "debug": true,
+  "pages": [
+
+
+    "pages/shelf/shelf",
+    "pages/bookmall/bookmall",
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/list/list",
+    "pages/search/search",
+    "pages/catalog/catalog",
+    "pages/article/article",
+    "pages/my/my"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "萌阅",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "list": [{
+        "pagePath": "pages/shelf/shelf",
+        "text": "书架"
+      },
+      {
+        "pagePath": "pages/search/search",
+        "text": "搜索"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的"
+      }
+    ],
+    "borderStyle":"black",
+    "backgroundColor": "#fff",
+    "color": "#000",
+    "selectedColor": "#000"
+  }
+}

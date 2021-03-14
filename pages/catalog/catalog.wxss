@@ -1,0 +1,62 @@
+/* pages/catalog/catalog.wxss */
+.main{
+  width: 100vw;
+}
+
+.catalog {
+  background: white;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.catalog_item {
+  margin-top: 20rpx;
+  padding: 8rpx 0;
+  border-bottom: solid 1px #ccc;
+  box-sizing: border-box;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  padding: 16rpx;
+  width: 100vw;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.info .image {
+  width: 135rpx;
+  height: 185rpx;
+  margin-right: 26rpx;
+}
+
+.info .background {
+  position: absolute;
+  width: 100%;
+  filter: blur(50px);
+  z-index: -1;
+}
+
+.info .text {
+  display: flex;
+  left: 0;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.info .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.info .buttons button{
+  width: 200rpx;
+  font-size: 26rpx;
+  align-self: center;
+  margin: 0;
+}

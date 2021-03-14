@@ -1,0 +1,43 @@
+/* pages/search/search.wxss */
+.searchbar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 80rpx;
+  padding: 4rpx;
+  box-sizing: border-box;
+}
+
+.searchbar .searchbar-input {
+  width: 70%;
+  height: 80rpx;
+  box-sizing: border-box;
+  padding-left: 16rpx;
+  display: inline-block;
+  border: 1px gray solid;
+}
+
+.searchbar .searchbar_btn {
+  width: 30%;
+  height: 80rpx;
+  display: inline-block;
+  border-radius: 0rpx;
+  font-size: 16px !important;
+  line-height: 80rpx !important;
+  padding: 0;
+}
+
+.results {
+  margin-top: 95rpx;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+.result {
+  width: 100%;
+  background: #f3f3f3;
+  margin-bottom: 12rpx;
+  font-size: 46rpx;
+  padding: 16rpx;
+}

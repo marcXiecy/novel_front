@@ -1,0 +1,19 @@
+<!--pages/bookmall/bookmall.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}11</text>
+
+  </view>
+</view>
+
+    <!-- <view class="button">
+      <button open-type="getUserInfo" color="#ff9147" round size="large" bind:getuserinfo="getUserInfo">授权登录</button>
+      <button open-type="getPhoneNumber" color="#ff9147" round size="large" bind:getphonenumber="getPhoneNumber" >一键绑定手机</button>
+    </view> -->
