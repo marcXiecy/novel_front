@@ -41,7 +41,7 @@ let request = function (url, method, data, success, fail = () => {}, complete = 
     },
     complete: () => {
       setTimeout(function () {
-        wx.hideLoading()
+        // wx.hideLoading()
       }, 500)
       complete && complete();
     }

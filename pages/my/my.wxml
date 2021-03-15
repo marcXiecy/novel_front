@@ -1,2 +1,29 @@
 <!--pages/my/my.wxml-->
-<text>pages/my/my.wxml</text>
+
+<view class="main">
+  <view class="header">
+    <image class='topback' src="../../resources/img/personal_top_back.png"></image>
+
+    <view class="userInfo">
+      <image class="circle" src="../../resources/img/personal_top_circle.png"></image>
+    <image class="userinfo-avatar" src="{{userInfo.avatar}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.name}}</text>
+      </view>
+  </view>
+  <view class="body">
+    <view class="body_bar">
+      <view>
+        <view>{{userInfo.book_num}}</view>
+        <view>书籍数量</view>
+      </view>
+      <view>
+        <view>{{userInfo.points}}</view>
+        <view>积分</view>
+      </view>
+      <view>
+        <view>{{userInfo.tips}}元</view>
+        <view>打赏金额</view>
+      </view>
+    </view>
+  </view>
+</view>

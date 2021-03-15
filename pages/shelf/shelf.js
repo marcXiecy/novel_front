@@ -29,18 +29,15 @@ Page({
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
+        this.getSystemUserInfo()
         this.getShelf();
       }
-    }else {
+    } else {
       // 在没有 open-type=getUserInfo 版本的兼容处理
-    this.getUserInfo();
+      this.getUserInfo();
     }
     this.setData({
-      slideButtons: [ {
+      slideButtons: [{
         type: 'warn',
         text: '删除',
       }],
@@ -127,7 +124,6 @@ Page({
       'GET',
       [],
       function (res) {
-        console.log(res)
         self.setData({
           shelf: res.data,
           hasShelf: true,
@@ -143,6 +139,7 @@ Page({
         getApp().toastNetworkFailure();
       },
       function () {
+        wx.hideLoading()
         wx.stopPullDownRefresh()
       }
     )
@@ -195,7 +192,21 @@ Page({
         this.getShelf();
       }
     })
-   }
+  },
+  getSystemUserInfo: function () {
+    var self = this;
+    Util.request(
+      config.apiGetCurrentUser,
+      'get', {},
+      function (res) {
+        getApp().globalData.userInfo = res.data
+        self.setData({
+          userInfo: res.data,
+          hasUserInfo: true
+        })
+      }
+    )
+  },
 })
 
 

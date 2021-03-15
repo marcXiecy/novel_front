@@ -1,6 +1,6 @@
 
-var base_url = 'https://novel.musae.cc';
-// var base_url = 'http://novel.musae.xxx';
+// var base_url = 'https://novel.musae.cc';
+var base_url = 'http://novel.musae.xxx';
 const config = {
   base_url: base_url,
   //用户API
