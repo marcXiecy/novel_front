@@ -12,7 +12,7 @@ Page({
     book_info:[],
     author:'',
     title:'',
-    next: 'http://www.31xiaoshuo.com//148/148881/54592724.html',
+    next: '',
     preview: '',
     ErrorMsg: '',
     Error: false,
@@ -158,9 +158,8 @@ Page({
             preview: res.data.preview,
             Error: false
           })
-          let bartitle = self.data.title + ' - ' + res.data.article[0].text;
           wx.setNavigationBarTitle({
-            title: bartitle 
+            title: res.data.article[0].text
           })
         } else {
           self.setData({

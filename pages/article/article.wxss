@@ -10,8 +10,10 @@ page{
 }
 .article_item{
   width: 100%;
-  margin-top: 16rpx;
-  font-size:40rpx;
+  margin-top: 36rpx;
+  font-size: 40rpx;
+  text-indent: 81rpx;
+  line-height: 66rpx;
 }
 .article_title{
   font-size:66rpx;
