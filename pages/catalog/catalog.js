@@ -139,7 +139,7 @@ Page({
   },
   addToShelf: function () {
     let self = this;
-    Util.request(config.apiNovelArticleInfo, 'GET', {
+    Util.request(config.apiNovelAddToShelf, 'GET', {
         url: self.data.catalog_url
       }, function (res) {
         if (res.flag == 1) {

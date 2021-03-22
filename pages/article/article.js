@@ -179,7 +179,6 @@ Page({
       }
     )
   },showmenu:function (){
-    console.log(123)
     this.setData({
       menudisplay: 'flex',
     })
