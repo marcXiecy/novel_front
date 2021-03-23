@@ -10,14 +10,23 @@ const config = {
   apiupdateUser: base_url + '/api/wxusers/updateUser',
   apiupdateUserPhone: base_url + '/api/wxusers/updateUserPhone',
   //解析文章API
-  apiNovelSearch: base_url + '/api/novel/search',
-  apiNovelCatalog: base_url + '/api/novel/catalog',
-  apiNovelArticle: base_url + '/api/novel/article',
-  apiNovelInfo: base_url + '/api/novel/book_info',
-  apiNovelShelf: base_url + '/api/novel/shelf',
-  apiNovelAddToShelf: base_url + '/api/novel/shelf/add',
-  apiNovelRemoveFromShelf: base_url + '/api/novel/shelf/remove',
-  apiNovelCheckInShelf: base_url + '/api/novel/shelf/check',
+  // apiNovelSearch: base_url + '/api/novel/search',
+  // apiNovelCatalog: base_url + '/api/novel/catalog',
+  // apiNovelArticle: base_url + '/api/novel/article',
+  // apiNovelInfo: base_url + '/api/novel/book_info',
+  // apiNovelShelf: base_url + '/api/novel/shelf',
+  // apiNovelAddToShelf: base_url + '/api/novel/shelf/add',
+  // apiNovelRemoveFromShelf: base_url + '/api/novel/shelf/remove',
+  // apiNovelCheckInShelf: base_url + '/api/novel/shelf/check',
+  //解析文章API---笔趣阁
+  apiNovelSearch: base_url + '/api/novel/biquge/search',
+  apiNovelCatalog: base_url + '/api/novel/biquge/catalog',
+  apiNovelArticle: base_url + '/api/novel/biquge/article',
+  apiNovelInfo: base_url + '/api/novel/biquge/book_info',
+  apiNovelShelf: base_url + '/api/novel/biquge/shelf',
+  apiNovelAddToShelf: base_url + '/api/novel/biquge/shelf/add',
+  apiNovelRemoveFromShelf: base_url + '/api/novel/biquge/shelf/remove',
+  apiNovelCheckInShelf: base_url + '/api/novel/biquge/shelf/check',
 }
 
 module.exports = config;
