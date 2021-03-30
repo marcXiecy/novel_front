@@ -3,6 +3,15 @@
 .main{
   width: 100vw;
 }
+
+.autorize_btn{
+  width: 220rpx !important;
+  font-size: 28rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+    background: #e0e0e0;
+    padding: 0;
+}
 .topbanner {
   position: fixed;
   left: 0;

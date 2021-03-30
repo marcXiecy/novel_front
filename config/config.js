@@ -21,6 +21,7 @@ const config = {
   //解析文章API---笔趣阁
   apiNovelSearch: base_url + '/api/novel/biquge/search',
   apiNovelCatalog: base_url + '/api/novel/biquge/catalog',
+  apiNovelSaveCatalog: base_url + '/api/novel/biquge/saveCatalog',
   apiNovelArticle: base_url + '/api/novel/biquge/article',
   apiNovelInfo: base_url + '/api/novel/biquge/book_info',
   apiNovelShelf: base_url + '/api/novel/biquge/shelf',

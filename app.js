@@ -13,7 +13,6 @@ App({
           'GET',
           [],
           function (res) {
-
             if (res.flag == 1) {
               self.globalData.userInfo = res.data;
             } else {
@@ -92,6 +91,7 @@ App({
     )
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    book_id:null
   }
 })

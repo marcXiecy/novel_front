@@ -9,6 +9,7 @@ Page({
   data: {
     catalog_url: '',
     shelf: '',
+    book_id: '',
     inShelf: false,
     catalogs: [],
     ErrorMsg: '',
@@ -21,10 +22,13 @@ Page({
   onLoad: function (options) {
     var self = this;
     const eventChannel = this.getOpenerEventChannel()
+    // getApp().globalData.book_id = options.book_id
     // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
     eventChannel.on('acceptDataFromSearch', function (data) {
+       getApp().globalData.book_id = data.book_id
       self.setData({
         catalog_url: data.href,
+        book_id: data.book_id,
       })
       Util.request(config.apiNovelCheckInShelf,
         'POST', {
@@ -57,13 +61,17 @@ Page({
       },
       data: {
         catalog_url: self.data.catalog_url,
+        book_id: getApp().globalData.book_id,
       },
       success: res => {
         if (res.data.flag == 1) {
+          getApp().globalData.book_id = res.data.book_id;
           self.setData({
             catalogs: res.data.data,
             Error: false
           })
+          self.saveCallback(res)
+    
         } else {
           self.setData({
             Error: true,
@@ -75,9 +83,14 @@ Page({
         getApp().toastNetworkFailure();
       },
       complete: () => {
+
         wx.hideLoading()
       }
     })
+    this.saveCallback = res => {
+      this.save();
+    }
+
   },
 
   /**
@@ -121,6 +134,23 @@ Page({
   onShareAppMessage: function () {
 
   },
+  save: function(){
+    let self = this;
+    wx.request({
+      url: config.apiNovelSaveCatalog,
+      method: 'GET',
+      header: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        url: self.data.catalog_url,
+        book_id: getApp().globalData.book_id,
+      },
+      success: res => {
+
+      },
+    })
+  },
   read: function (event) {
     let href = event.currentTarget.dataset.href;
     let author = event.currentTarget.dataset.author;
@@ -140,9 +170,7 @@ Page({
   addToShelf: function () {
     let self = this;
     Util.request(config.apiNovelAddToShelf, 'GET', {
-        url: self.data.catalog_url,
-        author: self.data.author,
-        title: self.data.title
+        book_id: getApp().globalData.book_id,
       }, function (res) {
         if (res.flag == 1) {
           self.setData({

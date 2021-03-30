@@ -9,16 +9,16 @@ Page({
   data: {
     article_url: '',
     article: [],
-    book_info:[],
-    author:'',
-    title:'',
+    book_info: [],
+    author: '',
+    title: '',
     next: '',
-    preview: '',
+    preview: null,
     ErrorMsg: '',
     Error: false,
     windowHeight: 0,
-    loadingFlag:0,
-    menudisplay:'none'
+    loadingFlag: 0,
+    menudisplay: 'none'
   },
 
   /**
@@ -35,39 +35,16 @@ Page({
     })
     var self = this;
     const eventChannel = this.getOpenerEventChannel()
-    eventChannel.on('acceptDataFromCatalog', function(data) {
-      self.setData({
-        next: data.href,
-        author: data.author,
-        title: data.title,
-      })
-    })
-    //获取书籍的本地信息
-    Util.request(
-      config.apiNovelInfo,
-      'GET',
-    {
-       title: self.data.title,
-       author: self.data.author,
-     },
-     function(res) {
-       if (res.flag == 1) {
+    // new Promise((resolve, reject) => {
+      eventChannel.on('acceptDataFromCatalog', function (data) {
         self.setData({
-          book_info: res.data
-         })
-       }
-     },
-     function(res){
-       getApp().toastNetworkFailure();
-     },
-     function(res) {
-       self.setData({
-         loadingFlag: 0,
-       })
-     }
-   )
-
-
+          next: data.href,
+          author: data.author,
+          title: data.title,
+        })
+      })
+    // })
+  
     //获取屏幕高度
     wx.getSystemInfo({
       success: function (res) {
@@ -83,8 +60,36 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    var self = this;
+     //获取书籍的本地信息
+     Util.request(
+      config.apiNovelInfo,
+      'GET', {
+        title: self.data.title,
+        author: self.data.author,
+      },
+      function (res) {
+        if (res.flag == 1) {
+          getApp().globalData.book_id = res.data.id;
+          self.setData({
+            book_info: res.data
+          })
+        }
+      },
+      function (res) {
+        getApp().toastNetworkFailure();
+      },
+      function (res) {
+        self.setData({
+          loadingFlag: 0,
+        })
+      }
+    )
+
+    wx.showLoading({
+      title: '加载中',
+    })
     this.loading();
-   
   },
 
   /**
@@ -112,7 +117,10 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.showLoading({
+      title: '加载上一章节',
+    })
+    this.loading_pre();
   },
 
   /**
@@ -128,33 +136,30 @@ Page({
   onShareAppMessage: function () {
 
   },
-  onReachBottom: function(){
+  onReachBottom: function () {
     this.loading();
   },
-  loading: function () {
+  loading_pre: function () {
     var self = this;
-    if(self.data.loadingFlag == 1){
+    if (self.data.loadingFlag == 1) {
       return;
     }
     self.setData({
       loadingFlag: 1,
     })
     Util.request(
-       config.apiNovelArticle,
-       'GET',
-     {
-        article_url: self.data.next,
+      config.apiNovelArticle,
+      'GET', {
+        article_url: self.data.preview,
         title: self.data.title,
         author: self.data.author,
       },
-      function(res) {
+      function (res) {
         if (res.flag == 1) {
-
-          self.data.article.push.apply(self.data.article,res.data.article);
+          self.data.article.unshift.apply(self.data.article, res.data.article);
           self.setData({
             article: self.data.article,
             article_url: self.data.next,
-            next: res.data.next,
             preview: res.data.preview,
             Error: false
           })
@@ -168,35 +173,95 @@ Page({
           })
         }
       },
-      function(res){
+      function (res) {
         getApp().toastNetworkFailure();
       },
-      function(res) {
+      function (res) {
         self.setData({
           loadingFlag: 0,
         })
+        wx.hideLoading()
+        wx.stopPullDownRefresh()
       }
     )
-  },showmenu:function (){
+  },
+  loading: function () {
+    var self = this;
+    if (self.data.loadingFlag == 1) {
+      return;
+    }
+    self.setData({
+      loadingFlag: 1,
+    })
+    Util.request(
+      config.apiNovelArticle,
+      'GET', {
+        article_url: self.data.next,
+        title: self.data.title,
+        author: self.data.author,
+      },
+      function (res) {
+        if (res.flag == 1) {
+
+          self.data.article.push.apply(self.data.article, res.data.article);
+          self.setData({
+            article: self.data.article,
+            article_url: self.data.next,
+            next: res.data.next,
+
+            Error: false
+          })
+          if(!self.data.preview){
+            self.setData({
+              preview: res.data.preview
+            })
+          }
+          wx.setNavigationBarTitle({
+            title: res.data.article[0].text
+          })
+        } else {
+          self.setData({
+            Error: true,
+            ErrorMsg: res.msg
+          })
+        }
+      },
+      function (res) {
+        getApp().toastNetworkFailure();
+      },
+      function (res) {
+        self.setData({
+          loadingFlag: 0,
+        })
+        wx.hideLoading()
+      }
+    )
+  },
+  showmenu: function () {
     this.setData({
       menudisplay: 'flex',
     })
-  },closemenu:function(){
+  },
+  closemenu: function () {
     this.setData({
       menudisplay: 'none',
     })
   },
-  backtocatalog: function(){
+  backtocatalog: function () {
     let href = this.data.book_info.url;
+    let book_id = getApp().globalData.book_id;
     wx.navigateTo({
-      url: '/pages/catalog/catalog',
+      url: '/pages/catalog/catalog?book_id=',// + book_id,
       success: function (res) {
         // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromSearch', { href: href })
+        res.eventChannel.emit('acceptDataFromSearch', {
+          href: href,
+          book_id: book_id
+        })
       }
     })
   },
-  backtoshelf: function(){
+  backtoshelf: function () {
     wx.switchTab({
       url: '/pages/shelf/shelf',
     })

@@ -77,7 +77,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getShelf();
   },
 
   /**
@@ -189,9 +189,28 @@ Page({
           userInfo: res.userInfo,
           hasUserInfo: true
         })
+        this.updateUserInfo(res)
         this.getShelf();
       }
     })
+  },
+  updateUserInfo: function (data) {
+    var self = this;
+    let gender = 'male';
+    if (data.gender == 2) {
+      gender = 'female';
+    }
+    Util.request(
+      config.apiupdateUser,
+      'POST', {
+        name: data.nickName,
+        avatar: data.avatarUrl,
+        gender: gender
+      },
+      function (res) {
+        self.getSystemUserInfo();
+      }
+    )
   },
   getSystemUserInfo: function () {
     var self = this;
