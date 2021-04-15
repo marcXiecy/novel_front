@@ -7,17 +7,18 @@
   </view>
 </view> -->
 
-<view scroll-y="true" class="main" bindlongpress="showmenu" bindtap="closemenu">
-  <view class="{{item.type == 'title' ? 'article_title' : 'article_item'}}" wx:for-index="idx" wx:for-item="item" wx:for="{{article}}" wx:key="item"
-  >
+<view scroll-y="true" class="main  {{ is_night ? 'night_model' : '' }}" bindlongpress="showmenu" bindtap="closemenu">
+  <view class="{{item.type == 'title' ? 'article_title' : 'article_item'}}" wx:for-index="idx" wx:for-item="item"
+    wx:for="{{article}}" wx:key="item">
     {{item.text}}
   </view>
-  
+
   <view class="menu {{menudisplay == 'flex' ? 'displayflex' : 'displaynone'}}">
-     <view bindtap="backtocatalog">目录</view>
-     <view bindtap="backtoshelf">返回书架</view>
+    <view bindtap="backtocatalog">目录</view>
+    <view bindtap="changeModel">{{ is_night ? '白天' : '夜间' }}</view>
+    <view bindtap="backtoshelf">返回书架</view>
   </view>
-  <view class="bottom_tab">
+  <view class="bottom_tab {{ is_night ? 'night_model' : '' }}">
 
   </view>
 </view>

@@ -1,6 +1,6 @@
 /* pages/article/article.wxss */
 page{
-  background-color: #f5efcf;
+  background-color: #f6f6f6;
 }
 .main{
   height: 100%;
@@ -11,9 +11,11 @@ page{
 .article_item{
   width: 100%;
   margin-top: 36rpx;
-  font-size: 40rpx;
-  text-indent: 81rpx;
+  font-size: 36rpx;
+  text-indent: 87rpx;
   line-height: 66rpx;
+  letter-spacing: 6rpx;
+  font-weight: bold;
 }
 .article_title{
   font-size:66rpx;
@@ -28,6 +30,7 @@ page{
   width: 100vw;
   height: 200rpx;
   background:#ffffff;
+  color:#2b2b2b;
   z-index: 2;
 }
 
@@ -55,6 +58,11 @@ page{
   left: 0;
   width: 100vw;
   height: 50rpx;
-  background:#f5efcf;
+  background:#f6f6f6;
   z-index: 1;
+}
+
+.night_model{
+  background:#2b2b2b;
+  color:#d2d2d2;
 }

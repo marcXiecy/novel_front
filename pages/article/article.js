@@ -18,33 +18,33 @@ Page({
     Error: false,
     windowHeight: 0,
     loadingFlag: 0,
-    menudisplay: 'none'
+    menudisplay: 'none',
+    is_night: false,
+    night_back: '#2b2b2b',
+    night_color: '#ffffff',
+    day_back: '#f6f6f6',
+    day_color: '#000000',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.setNavigationBarColor({
-      frontColor: '#000000',
-      backgroundColor: '#f5efcf',
-      animation: {
-        duration: 400,
-        timingFunc: 'easeIn'
-      }
-    })
+
     var self = this;
     const eventChannel = this.getOpenerEventChannel()
-    // new Promise((resolve, reject) => {
-      eventChannel.on('acceptDataFromCatalog', function (data) {
-        self.setData({
-          next: data.href,
-          author: data.author,
-          title: data.title,
-        })
+    eventChannel.on('acceptDataFromCatalog', function (data) {
+      self.setData({
+        next: data.href,
+        author: data.author,
+        title: data.title,
       })
-    // })
-  
+    })
+    let article_night = wx.getStorageSync('article_night');
+    this.setData({
+      is_night: article_night
+    })
+    this.setArticleModel();
     //获取屏幕高度
     wx.getSystemInfo({
       success: function (res) {
@@ -61,8 +61,8 @@ Page({
    */
   onReady: function () {
     var self = this;
-     //获取书籍的本地信息
-     Util.request(
+    //获取书籍的本地信息
+    Util.request(
       config.apiNovelInfo,
       'GET', {
         title: self.data.title,
@@ -211,7 +211,7 @@ Page({
 
             Error: false
           })
-          if(!self.data.preview){
+          if (!self.data.preview) {
             self.setData({
               preview: res.data.preview
             })
@@ -251,7 +251,7 @@ Page({
     let href = this.data.book_info.url;
     let book_id = getApp().globalData.book_id;
     wx.navigateTo({
-      url: '/pages/catalog/catalog?book_id=',// + book_id,
+      url: '/pages/catalog/catalog?book_id=', // + book_id,
       success: function (res) {
         // 通过eventChannel向被打开页面传送数据
         res.eventChannel.emit('acceptDataFromSearch', {
@@ -265,5 +265,38 @@ Page({
     wx.switchTab({
       url: '/pages/shelf/shelf',
     })
-  }
+  },
+  changeModel: function () {
+    this.setData({
+      is_night: !this.data.is_night,
+    });
+    this.setArticleModel();
+    wx.setStorage({
+      key: "article_night",
+      data: this.data.is_night
+    })
+  },
+  setArticleModel: function () {
+
+    if (this.data.is_night) {
+      console.log(this.data.night_color)
+      wx.setNavigationBarColor({
+        frontColor: this.data.night_color,
+        backgroundColor: this.data.night_back,
+        animation: {
+          duration: 200,
+          timingFunc: 'easeIn'
+        }
+      })
+    } else {
+      wx.setNavigationBarColor({
+        frontColor: this.data.day_color,
+        backgroundColor: this.data.day_back,
+        animation: {
+          duration: 200,
+          timingFunc: 'easeIn'
+        }
+      })
+    }
+  },
 })
