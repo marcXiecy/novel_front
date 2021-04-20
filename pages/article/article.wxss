@@ -7,6 +7,8 @@ page{
   overflow:scroll;
   padding: 18rpx;
   box-sizing: border-box;
+  width: 100vw;
+  overflow: hidden;
 }
 .article_item{
   width: 100%;
@@ -18,6 +20,7 @@ page{
   font-weight: bold;
 }
 .article_title{
+  width: 100%;
   font-size:66rpx;
   font-weight: bold;
   margin: 60rpx 0;

@@ -16,6 +16,7 @@ const formatNumber = n => {
 
 let request = function (url, method, data, success, fail = () => {}, complete = () => {}) {
   let cookie = wx.getStorageSync('cookie');
+
   let header = {
     'Content-Type': 'application/json',
     'Cookie': cookie

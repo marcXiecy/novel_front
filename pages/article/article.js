@@ -250,8 +250,8 @@ Page({
   backtocatalog: function () {
     let href = this.data.book_info.url;
     let book_id = getApp().globalData.book_id;
-    wx.navigateTo({
-      url: '/pages/catalog/catalog?book_id=', // + book_id,
+    wx.redirectTo({
+      url: '/pages/catalog/catalog',
       success: function (res) {
         // 通过eventChannel向被打开页面传送数据
         res.eventChannel.emit('acceptDataFromSearch', {

@@ -24,6 +24,7 @@
             <view class='text'>
               <view class="title">{{item.book.title}}</view>
               <view class="author">作者：{{item.book.author}}</view>
+              <view class="newest">最新：{{item.book.newest}}</view>
             </view>
           </view>
       </mp-slideview>

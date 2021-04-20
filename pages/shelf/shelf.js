@@ -38,6 +38,9 @@ Page({
     }
     this.setData({
       slideButtons: [{
+        text: '目录',
+      },
+      {
         type: 'warn',
         text: '删除',
       }],
@@ -47,22 +50,34 @@ Page({
     let id = e.currentTarget.dataset.index;
     let self = this;
     if (e.detail.index == 0) {
-      wx.showModal({
-        title: '提示',
-        content: '确认将书移出书架吗？',
-        cancelColor: '#e2e2e2',
-        success(res) {
-          if (res.confirm) {
-            Util.request(config.apiNovelRemoveFromShelf, 'GET', {
-              id: id
-            }, function (res) {
-              if (res.flag == 1) {
-                self.getShelf();
-              }
-            })
-          }
+      let href = e.currentTarget.dataset.catalog;
+      wx.navigateTo({
+        url: '/pages/catalog/catalog',
+        success: function (res) {
+          // 通过eventChannel向被打开页面传送数据
+          res.eventChannel.emit('acceptDataFromSearch', {
+            href: href
+          })
         }
       })
+     }
+      if (e.detail.index == 1) {
+        wx.showModal({
+          title: '提示',
+          content: '确认将书移出书架吗？',
+          cancelColor: '#e2e2e2',
+          success(res) {
+            if (res.confirm) {
+              Util.request(config.apiNovelRemoveFromShelf, 'GET', {
+                id: id
+              }, function (res) {
+                if (res.flag == 1) {
+                  self.getShelf();
+                }
+              })
+            }
+          }
+        })
     }
 
   },
