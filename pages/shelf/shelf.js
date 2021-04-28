@@ -12,38 +12,39 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    canIUseGetUserProfile: false,
     shelf: [],
     hasShelf: false,
     shelfFail: false
   },
 
   onLoad() {
-    if (app.globalData.userInfo) {
+    let self = this;
+    if (wx.getUserProfile) {
       this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
+        canIUseGetUserProfile: true
       })
-      this.getShelf();
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.getSystemUserInfo()
-        this.getShelf();
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      this.getUserInfo();
     }
+
+    app.userInfoReadyCallback = res => {
+      if (res.name) {
+        self.setData({
+          userInfo: res,
+          hasUserInfo: true
+        })
+        self.getShelf();
+      }
+    }
+    //滑动数据
     this.setData({
       slideButtons: [{
-        text: '目录',
-      },
-      {
-        type: 'warn',
-        text: '删除',
-      }],
+          text: '目录',
+        },
+        {
+          type: 'warn',
+          text: '删除',
+        }
+      ],
     });
   },
   slideButtonTap(e) {
@@ -52,7 +53,7 @@ Page({
     if (e.detail.index == 0) {
       let href = e.currentTarget.dataset.catalog;
       wx.navigateTo({
-        url: '/pages/catalog/catalog',
+        url: '/pages/catalog/catalog?href=' + href,
         success: function (res) {
           // 通过eventChannel向被打开页面传送数据
           res.eventChannel.emit('acceptDataFromSearch', {
@@ -60,24 +61,24 @@ Page({
           })
         }
       })
-     }
-      if (e.detail.index == 1) {
-        wx.showModal({
-          title: '提示',
-          content: '确认将书移出书架吗？',
-          cancelColor: '#e2e2e2',
-          success(res) {
-            if (res.confirm) {
-              Util.request(config.apiNovelRemoveFromShelf, 'GET', {
-                id: id
-              }, function (res) {
-                if (res.flag == 1) {
-                  self.getShelf();
-                }
-              })
-            }
+    }
+    if (e.detail.index == 1) {
+      wx.showModal({
+        title: '提示',
+        content: '确认将书移出书架吗？',
+        cancelColor: '#e2e2e2',
+        success(res) {
+          if (res.confirm) {
+            Util.request(config.apiNovelRemoveFromShelf, 'GET', {
+              id: id
+            }, function (res) {
+              if (res.flag == 1) {
+                self.getShelf();
+              }
+            })
           }
-        })
+        }
+      })
     }
 
   },
@@ -162,13 +163,13 @@ Page({
   toCatalog: function (event) {
     let href = event.currentTarget.dataset.catalog;
     wx.navigateTo({
-      url: '/pages/catalog/catalog',
-      success: function (res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromSearch', {
-          href: href
-        })
-      }
+      url: '/pages/catalog/catalog?href=' + href,
+      // success: function (res) {
+      //   // 通过eventChannel向被打开页面传送数据
+      //   res.eventChannel.emit('acceptDataFromSearch', {
+      //     href: href
+      //   })
+      // }
     })
   },
   toArticle: function (event) {
@@ -196,6 +197,21 @@ Page({
   onPullDownRefresh: function () {
     this.getShelf();
   },
+  getUserProfile(e) {
+    // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
+    // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
+    wx.getUserProfile({
+      desc: '完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        app.globalData.userInfo = res.userInfo
+        this.setData({
+          userInfo: res.userInfo,
+        })
+        this.updateUserInfo(res.userInfo)
+        this.getShelf();
+      }
+    })
+  },
   getUserInfo: function () {
     wx.getUserInfo({
       success: res => {
@@ -204,7 +220,7 @@ Page({
           userInfo: res.userInfo,
           hasUserInfo: true
         })
-        this.updateUserInfo(res)
+        this.updateUserInfo(res.userInfo)
         this.getShelf();
       }
     })
@@ -223,6 +239,9 @@ Page({
         gender: gender
       },
       function (res) {
+        self.setData({
+          hasUserInfo: true
+        })
         self.getSystemUserInfo();
       }
     )

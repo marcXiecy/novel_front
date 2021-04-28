@@ -12,6 +12,7 @@ Page({
     book_info: [],
     author: '',
     title: '',
+    current_title: '',
     next: '',
     preview: null,
     ErrorMsg: '',
@@ -30,7 +31,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if (wx.getUserProfile) {
+      this.setData({
+        canIUseGetUserProfile: true
+      })
+    }
     var self = this;
     const eventChannel = this.getOpenerEventChannel()
     eventChannel.on('acceptDataFromCatalog', function (data) {
@@ -161,10 +166,12 @@ Page({
             article: self.data.article,
             article_url: self.data.next,
             preview: res.data.preview,
+            current_title: res.data.c_title,
             Error: false
           })
           wx.setNavigationBarTitle({
-            title: res.data.article[0].text
+            title: res.data.article[0].text,
+
           })
         } else {
           self.setData({
@@ -198,6 +205,7 @@ Page({
       'GET', {
         article_url: self.data.next,
         title: self.data.title,
+        c_title: self.data.c_title,
         author: self.data.author,
       },
       function (res) {
@@ -208,7 +216,7 @@ Page({
             article: self.data.article,
             article_url: self.data.next,
             next: res.data.next,
-
+            current_title: res.data.c_title,
             Error: false
           })
           if (!self.data.preview) {
@@ -217,7 +225,7 @@ Page({
             })
           }
           wx.setNavigationBarTitle({
-            title: res.data.article[0].text
+            title: res.data.article[0].text,
           })
         } else {
           self.setData({
@@ -249,16 +257,18 @@ Page({
   },
   backtocatalog: function () {
     let href = this.data.book_info.url;
+    let c_title = this.data.current_title;
     let book_id = getApp().globalData.book_id;
     wx.redirectTo({
-      url: '/pages/catalog/catalog',
-      success: function (res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromSearch', {
-          href: href,
-          book_id: book_id
-        })
-      }
+      url: '/pages/catalog/catalog?href=' + href + '&book_id=' + book_id + '&c_title=' + c_title,
+      // success: function (res) {
+      //   // 通过eventChannel向被打开页面传送数据
+      //   res.eventChannel.emit('acceptDataFromSearch', {
+      //     href: href,
+      //     book_id: book_id,
+      //     title: title,
+      //   })
+      // }
     })
   },
   backtoshelf: function () {
@@ -277,9 +287,7 @@ Page({
     })
   },
   setArticleModel: function () {
-
     if (this.data.is_night) {
-      console.log(this.data.night_color)
       wx.setNavigationBarColor({
         frontColor: this.data.night_color,
         backgroundColor: this.data.night_back,

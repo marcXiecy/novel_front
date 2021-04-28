@@ -1,5 +1,5 @@
 const config = require("../../config/config");
-
+import Util from "../../utils/util";
 // pages/search/search.js
 Page({
 
@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    keyword: '圣墟',
+    keyword: '',
     searchResult: [],
     searchError: false,
     searchErrorMsg:'',
@@ -77,47 +77,47 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    wx.request({
-      url: config.apiNovelSearch,
-      method: 'GET',
-      header: {
-        'Content-Type': 'application/json',
-      },
-      data: {
+    Util.request(config.apiNovelSearch,'GET',
+      {
         keyword: self.data.keyword,
       },
-      success: res => {
-        if (res.data.flag == 1) {
+      function(res) {
+        if (res.flag == 1) {
           self.setData({
-            searchResult: res.data.data,
+            searchResult: res.data,
             searchError: false
           })
         } else {
           self.setData({
             searchError: true,
-            searchErrorMsg: res.data.msg
+            searchErrorMsg: res.msg
           })
         }
 
       },
-      fail: res => {
+      function(res) {
         getApp().toastNetworkFailure();
 
       },
-      complete: () => {
+      function(res){
         wx.hideLoading()
       }
-    })
+    )
   
   },
   toCatalog: function (event) {
     let href = event.currentTarget.dataset.href;
     wx.navigateTo({
-      url: '/pages/catalog/catalog',
-      success: function(res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromSearch', { href: href })
-      }
+      url: '/pages/catalog/catalog?href=' + href,
+      // success: function(res) {
+      //   // 通过eventChannel向被打开页面传送数据
+      //   res.eventChannel.emit('acceptDataFromSearch', { href: href })
+      // }
     })
   },
+  delete_search:function(){
+    this.setData({
+      keyword:''
+    })
+  }
 })

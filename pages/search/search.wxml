@@ -1,7 +1,8 @@
 <!--pages/search/search.wxml-->
 <view class="main">
   <view class="searchbar">
-    <input class="searchbar-input" placeholder="书籍名称" model:value="{{keyword}}" />
+    <input class="searchbar-input" placeholder="书籍名称" model:value="{{keyword}}" type="text" onfirm-type="search" bindconfirm='search'/>
+    <view bindtap="delete_search" class="delete_btn">X</view>
     <button bindtap="search" class="mini-btn searchbar_btn" type="default" id="btnSearch">搜索</button>
   </view>
   <view class="results">

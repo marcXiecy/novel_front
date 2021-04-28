@@ -2,9 +2,10 @@
 <view class="main">
   <view class="topbanner">
     <view class="userinfo">
-      <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="autorize_btn"> 获取头像昵称
-
-      </button>
+      <block wx:if="{{!hasUserInfo}}">
+        <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"  class="autorize_btn"> 获取头像昵称 </button>
+        <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserProfile"  class="autorize_btn"> 获取头像昵称 </button>
+      </block>
       <block wx:else>
         <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatar}}" mode="cover"></image>
         <text class="userinfo-nickname">{{userInfo.name}}</text>
@@ -18,15 +19,16 @@
     <view class="shelf_items weui-cells" wx:else>
       <mp-slideview bindtap="{{item.current_page_url ? 'toArticle' : 'toCatalog'}}" data-title="{{item.book.title}}"
         data-author="{{item.book.author}}" data-article="{{item.current_page_url}}" data-catalog="{{item.url}}"
-        data-index="{{item.id}}"  wx:for="{{shelf}}" wx:key="item"  buttons="{{slideButtons}}" bindbuttontap="slideButtonTap">
+        data-index="{{item.id}}" wx:for="{{shelf}}" wx:key="item" buttons="{{slideButtons}}"
+        bindbuttontap="slideButtonTap">
         <view class="weui-slidecell shelf_item">
-            <image class="image" src="{{item.book.image}}"></image>
-            <view class='text'>
-              <view class="title">{{item.book.title}}</view>
-              <view class="author">作者：{{item.book.author}}</view>
-              <view class="newest">最新：{{item.book.newest}}</view>
-            </view>
+          <image class="image" src="{{item.book.image}}"></image>
+          <view class='text'>
+            <view class="title">{{item.book.title}}</view>
+            <view class="author">作者：{{item.book.author}}</view>
+            <view class="newest">最新：{{item.book.newest}}</view>
           </view>
+        </view>
       </mp-slideview>
     </view>
   </view>

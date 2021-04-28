@@ -13,7 +13,7 @@
     </view>
   </view>
   <view class="catalog">
-    <view class="catalog_item" data-href="{{item.href}}" data-title="{{catalogs.title}}" data-author="{{catalogs.author}}" bindtap="read" wx:for="{{catalogs.catalog}}" wx:key="item">
+    <view id="{{item.title == current_title ? 'current_item' : ''}}"  class="catalog_item {{item.title == current_title ? 'item_current' : ''}} " data-href="{{item.href}}" data-title="{{catalogs.title}}" data-author="{{catalogs.author}}" bindtap="read" wx:for="{{catalogs.catalog}}" wx:key="item">
       {{item.title}}
     </view>
   </view>

@@ -4,6 +4,7 @@ var base_url = 'https://novel.musae.cc';
 const config = {
   base_url: base_url,
   //用户API
+  apiCheckSession: base_url + '/api/wxusers/checkSession',  
   apiCode2Session: base_url + '/api/wxusers/code2session',
   apiAutoRegister: base_url + '/api/wxusers/autoRegister',
   apiGetCurrentUser: base_url + '/api/wxusers/getCurrentUser',
