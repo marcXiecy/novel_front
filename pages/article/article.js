@@ -232,6 +232,11 @@ Page({
             Error: true,
             ErrorMsg: res.msg
           })
+          wx.showToast({
+            title: res.msg,
+            icon: 'none',
+            duration: 2000
+          });
         }
       },
       function (res) {
