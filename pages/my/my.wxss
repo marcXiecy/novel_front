@@ -77,3 +77,16 @@
   align-items: center;
   height: 550rpx;
 }
+
+.source{
+  padding:55rpx;
+}
+.source .title{
+  font-weight: bold;
+  font-size: 36rpx;
+  color:Black;
+}
+.source view{
+  margin:10rpx;
+  color:#519fff;
+}

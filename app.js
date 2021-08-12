@@ -3,6 +3,11 @@ import Config from './config/config';
 const Util = require("./utils/util")
 App({
   onLaunch() {
+    let source = wx.getStorageSync('source');
+
+    if(!source){
+      wx.setStorageSync('source', 'xbiquge')
+    }
     // 登录
     let self = this;
     wx.checkSession({

@@ -6,7 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: {}
+    userInfo: {},
+    source:'',
   },
 
   /**
@@ -15,6 +16,10 @@ Page({
   onLoad() {
       this.setData({
         userInfo: app.globalData.userInfo,
+      })
+      let source = wx.getStorageSync('source');
+      this.setData({
+        source: source,
       })
   },
 
@@ -65,5 +70,18 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  setSource: function(e){
+   let source = e.currentTarget.dataset.source;
+   wx.setStorageSync('source', source)
+   wx.showToast({
+    title: '切换成功',
+    icon: 'none',
+    duration: 1000
+  });
+  this.setData({
+    source: source,
+  })
   }
 })
