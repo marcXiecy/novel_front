@@ -26,10 +26,16 @@
       </view>
     </view>
   </view>
-  <view class="source">
+  <!-- <view class="source">
         <view class="title">书源选择</view>
         <view style='font-size:24rpx;color:#2dd8ff'>当前书源: {{ source == 'xbiquge' ?  '新笔趣阁' : '新笔趣阁5200'}}</view>
         <view bindtap="{{'setSource'}}" data-source='xbiquge'>新笔趣阁</view>
         <view bindtap="{{'setSource'}}"  data-source='xbiquge5200'>新笔趣阁5200</view>
+  </view> -->
+  <view class="source">
+        <view class="title">书源选择</view>
+        <view style='font-size:24rpx;color:#2dd8ff'>当前书源: {{ currentSource }}</view>
+        <view wx:for="{{sourceData}}" wx:key="item" bindtap="{{'setSource'}}" data-source='{{item.value}}'>{{item.title}}
+        </view>
   </view>
 </view>

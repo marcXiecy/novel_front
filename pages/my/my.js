@@ -1,4 +1,6 @@
 // pages/my/my.js
+const config = require("../../config/config")
+const Util = require("../../utils/util")
 const app = getApp()
 Page({
 
@@ -8,18 +10,36 @@ Page({
   data: {
     userInfo: {},
     source:'',
+    currentSource:'',
+    sourceData:{},
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-      this.setData({
+      let self = this;
+      self.setData({
         userInfo: app.globalData.userInfo,
       })
       let source = wx.getStorageSync('source');
-      this.setData({
+      self.setData({
         source: source,
+      })
+
+      Util.request(config.apiSourceEnums, 'GET', {}, function (res) {
+        if (res.flag == 1) {
+          self.setData({
+            sourceData: res.data
+          })
+          res.data.forEach(element => {
+            if(element.value == source){
+              self.setData({
+                currentSource: element.title
+              })
+            }
+          });
+        }
       })
   },
 
